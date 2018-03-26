@@ -9,10 +9,10 @@ describe "Visitor can register" do
 
       expect(current_path).to eq("/register")
 
-      fill_in "email", with: "test@email.com"
-      fill_in "name", with: "Testy Dude"
-      fill_in "password", with: "test"
-      fill_in "password_confirmation", with: "test"
+      fill_in "Email", with: "test@email.com"
+      fill_in "Name", with: "Testy Dude"
+      fill_in "Password", with: "test"
+      fill_in "Password confirmation", with: "test"
 
       click_on "Submit"
 

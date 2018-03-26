@@ -12,6 +12,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:id] = @user.id
+      UserMailer.registration_email(@user).deliver_now
       flash[:notice] = "Logged in as #{@user.name}"
       redirect_to '/dashboard'
     else

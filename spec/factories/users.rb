@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :user do
-    email "MyString"
-    name "MyString"
-    password ""
+    email "test@email.com"
+    name "Testy Dude"
+    password "Test!"
   end
 end

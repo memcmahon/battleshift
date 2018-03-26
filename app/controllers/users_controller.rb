@@ -21,6 +21,13 @@ class UsersController < ApplicationController
     end
   end
 
+  def update
+    user = User.find_by(activation_key: params[:activation_key])
+    user.update(activated: true)
+    flash[:notice] = "Thank you! Your account is now activated."
+    redirect_to "/dashboard"
+  end
+
   private
     def user_params
       params.require(:user).permit(:email, :name, :password)

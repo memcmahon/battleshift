@@ -7,6 +7,6 @@ RSpec.describe User, type: :model do
   end
 
   describe "Relationships" do
-    it { should belong_to :game }
+    it { should have_one :game }
   end
 end

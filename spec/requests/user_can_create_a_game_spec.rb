@@ -3,12 +3,8 @@ require 'rails_helper'
 describe "User can create a game" do
   describe "When they visit /api/v1/games" do
     it "they can start a game" do
-      megan = create(:user, email: "mcmahon.meganelizabeth@gmail.com", activated: true)
-      cam = create(:user, email: "wlcjohnson@gmail.com", activated: true)
-
       conn = Faraday.new("http://localhost:3000/api/v1/games") do |faraday|
-        # binding.pry
-        faraday.headers["X-API-Key"] = megan.active_api_key.id
+        faraday.headers["X-API-Key"] = ENV["TEST_PLAYER_1_API_KEY"]
         faraday.adapter Faraday.default_adapter
       end
 
@@ -19,11 +15,14 @@ describe "User can create a game" do
         req.body = payload
       end
 
-      binding.pry
 
-      response = JSON.parse(request.body, symbolize: true)
+      response = JSON.parse(request.body, symbolize_names: true)
 
-      expect(response[:id]).to eq(Game.last.id)
+      expect(response[:id]).to be_an Integer
+      expect(response[:player_1_board][:rows].count).to eq(4)
+      expect(response[:player_2_board][:rows].count).to eq(4)
+      expect(response[:player_1][:name]).to eq("Megan")
+      expect(response[:player_2][:name]).to eq("Cam")
     end
   end
 end

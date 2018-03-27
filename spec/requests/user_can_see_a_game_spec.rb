@@ -40,7 +40,7 @@ describe 'GET /api/v1/games/1' do
                       current_turn: "challenger"
                     }
 
-      game = Game.new(game_attributes)
+      game = Game.create(game_attributes)
       game.save!
 
       get "/api/v1/games/#{game.id}"

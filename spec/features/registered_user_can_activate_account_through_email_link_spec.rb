@@ -10,7 +10,7 @@ describe "as a registered user" do
 
       expect(current_path).to eq('/dashboard')
       expect(page).to have_content("Thank you! Your account is now activated.")
-      expext(page).to have_content("Status: Active")
+      expect(page).to have_content("Status: Active")
     end
   end
 end

@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180326191929) do
+ActiveRecord::Schema.define(version: 20180327005327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
+  enable_extension "pgcrypto"
+
+  create_table "api_keys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "status"
+    t.index ["user_id"], name: "index_api_keys_on_user_id"
+  end
 
   create_table "games", force: :cascade do |t|
     t.text "player_1_board"
@@ -32,6 +40,9 @@ ActiveRecord::Schema.define(version: 20180326191929) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "activation_key"
+    t.boolean "activated"
   end
 
+  add_foreign_key "api_keys", "users"
 end

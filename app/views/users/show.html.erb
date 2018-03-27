@@ -1,1 +1,5 @@
-<h2>This account has not yet been activated. Please check your email.</h2>
+<% if @user.activated %>
+  <h2>Status: Active</h2>
+<% else %>
+  <h2>This account has not yet been activated. Please check your email.</h2>
+<% end %>

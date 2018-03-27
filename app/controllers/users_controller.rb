@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   def show
-    @user = User.find(session[:id])
+    @user = User.find(current_user[:id])
   end
 
   def new
@@ -19,6 +19,14 @@ class UsersController < ApplicationController
       flash[:notice] = "Something went wrong - try again!"
       render :new
     end
+  end
+
+  def update
+    user = User.find_by(activation_key: params[:activation_key])
+    user.update(activated: true)
+    user.save
+    flash[:notice] = "Thank you! Your account is now activated."
+    redirect_to "/dashboard"
   end
 
   private

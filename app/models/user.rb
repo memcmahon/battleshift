@@ -18,10 +18,6 @@ class User < ApplicationRecord
     sha = Digest::SHA1.hexdigest(email)
     update(activation_key: sha)
   end
-  #
-  # def active_api_key
-  #   api_keys.find_by(status: "active")
-  # end
 
   def set_api_key
     api_keys.create!(status: 'active')

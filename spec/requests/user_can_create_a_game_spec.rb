@@ -1,28 +1,26 @@
 require 'rails_helper'
 
 describe "User can create a game" do
-  describe "When they visit /api/v1/games" do
+  describe "When they post to /api/v1/games" do
+    let(:player_1) { create(:user) }
+    let(:player_2) { create(:user) }
     it "they can start a game" do
-      conn = Faraday.new("http://localhost:3000/api/v1/games") do |faraday|
-        faraday.headers["X-API-Key"] = ENV["TEST_PLAYER_1_API_KEY"]
-        faraday.adapter Faraday.default_adapter
-      end
 
-      payload = ({ opponent_email: "wlcjohnson@gmail.com" }).to_json
+      headers = { "CONTENT_TYPE" => "application/json",
+                  "X-API-Key" => player_1.active_api_key.id
+                }
 
-      request = conn.post do |req|
-        req.headers["CONTENT_TYPE"] = "application/json"
-        req.body = payload
-      end
+      payload = { opponent_email: player_2.email }.to_json
 
+      post "/api/v1/games", params: payload, headers: headers
 
-      response = JSON.parse(request.body, symbolize_names: true)
+      results = JSON.parse(response.body, symbolize_names: true)
 
-      expect(response[:id]).to be_an Integer
-      expect(response[:player_1_board][:rows].count).to eq(4)
-      expect(response[:player_2_board][:rows].count).to eq(4)
-      expect(response[:player_1][:name]).to eq("Megan")
-      expect(response[:player_2][:name]).to eq("Cam")
+      expect(results[:id]).to be_an Integer
+      expect(results[:player_1_board][:rows].count).to eq(4)
+      expect(results[:player_2_board][:rows].count).to eq(4)
+      expect(results[:player_1][:name]).to eq(player_1.name)
+      expect(results[:player_2][:name]).to eq(player_2.name)
     end
   end
 end

@@ -4,6 +4,7 @@ describe "User can create a game" do
   describe "When they post to /api/v1/games" do
     let(:player_1) { create(:user) }
     let(:player_2) { create(:user) }
+
     it "they can start a game" do
 
       headers = { "CONTENT_TYPE" => "application/json",

@@ -2,11 +2,18 @@ require "rails_helper"
 
 describe "user can place a ship" do
   describe "when they post to /api/v1/games/:game_id/ships" do
-    it "places a ship based on payload" do
-      conn = Faraday.new("http://localhost:3000/api/v1/games/#{Game.last.id}/ships") do |faraday|
-        faraday.headers["X-API-Key"] = ENV["TEST_PLAYER_1_API_KEY"]
-        faraday.adapter Faraday.default_adapter
-      end
+    let(:player_1) { create(:user) }
+    let(:player_2) { create(:user) }
+
+    let(:game)     { create(:game, player_1: player_1,
+                            player_2: player_2, player_1_board: Board.new(4),
+                            player_2_board: Board.new(4)) }
+
+    xit "places a ship based on payload" do
+
+      headers = { "CONTENT_TYPE" => "application/json",
+                  "X-API-Key" => player_1.active_api_key.id
+                }
 
       ship_1_payload = {
         ship_size: 3,
@@ -14,13 +21,9 @@ describe "user can place a ship" do
         end_space: "A3"
       }.to_json
 
-      request = conn.post do |req|
-        req.headers["CONTENT_TYPE"] = "application/json"
-        req.body = ship_1_payload
-      end
+      post "/api/v1/games/#{game.id}/ships", params: ship_1_payload, headers: headers
 
-      respone = JSON.parse(request.body, symbolize_names: true)
-
+      results = JSON.parse(request.body, symbolize_names: true)
 
 
     end

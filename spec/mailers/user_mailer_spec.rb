@@ -10,7 +10,7 @@ RSpec.describe UserMailer, type: :mailer do
       expect(mail.to).to eq(["email@email.com"])
       expect(mail.from).to eq(["thecaptain@battleshift.com"])
       expect(mail.body.encoded).to include("http://localhost:3000/activate/#{user.activation_key}")
-      expect(mail.body.encoded).to include(user.active_api_key.id)
+      expect(mail.body.encoded).to include(user.api_key.id)
     end
   end
 end

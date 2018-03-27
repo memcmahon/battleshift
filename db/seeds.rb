@@ -1,3 +1,9 @@
+User.destroy_all
+
+User.create(name: "Megan", email: "mcmahon.meganelizabeth@gmail.com", password: "Test!", activated: true)
+User.create(name: "Cam", email: "wlcjohnson@gmail.com", password: "Test!", activated: true)
+
+
 player_1_board = Board.new(4)
 player_2_board = Board.new(4)
 

@@ -2,11 +2,15 @@ require 'rails_helper'
 
 describe "Api::V1::Shots" do
   context "POST /api/v1/games/:id/shots" do
+    let(:player_1) { create(:user) }
+    let(:player_2) { create(:user) }
     let(:player_1_board)   { Board.new(4) }
     let(:player_2_board)   { Board.new(4) }
     let(:sm_ship) { Ship.new(2) }
     let(:game)    {
       create(:game,
+        player_1: player_1,
+        player_2: player_2,
         player_1_board: player_1_board,
         player_2_board: player_2_board
       )
@@ -59,7 +63,11 @@ describe "Api::V1::Shots" do
     it "updates the message but not the board with invalid coordinates" do
       player_1_board = Board.new(1)
       player_2_board = Board.new(1)
-      game = create(:game, player_1_board: player_1_board, player_2_board: player_2_board)
+      game = create(:game,
+                    player_1: player_1,
+                    player_2: player_2,
+                    player_1_board: player_1_board,
+                    player_2_board: player_2_board)
 
       headers = { "CONTENT_TYPE" => "application/json" }
       json_payload = {target: "B1"}.to_json

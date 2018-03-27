@@ -3,6 +3,8 @@ require 'rails_helper'
 describe 'GET /api/v1/games/1' do
   context 'with an existing game' do
     it 'returns a game with boards' do
+      player_1 = create(:user)
+      player_2 = create(:user)
       player_1_board = Board.new(4)
       player_2_board = Board.new(4)
       sm_ship = Ship.new(2)
@@ -33,6 +35,8 @@ describe 'GET /api/v1/games/1' do
                     ).run
 
       game_attributes = {
+                      player_1: player_1,
+                      player_2: player_2,
                       player_1_board: player_1_board,
                       player_2_board: player_2_board,
                       player_1_turns: 0,

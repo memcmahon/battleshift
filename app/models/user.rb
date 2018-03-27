@@ -2,6 +2,7 @@ require "digest"
 
 class User < ApplicationRecord
   has_many :api_keys
+  has_one :game
 
   after_create :set_activation_key
   after_create :set_api_key

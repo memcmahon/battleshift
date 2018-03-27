@@ -2,7 +2,9 @@ require "digest"
 
 class User < ApplicationRecord
   has_many :api_keys
+  has_one :api_key, -> { where(status: "active")}
   has_one :game
+
 
   after_create :set_activation_key
   after_create :set_api_key
@@ -16,10 +18,10 @@ class User < ApplicationRecord
     sha = Digest::SHA1.hexdigest(email)
     update(activation_key: sha)
   end
-
-  def active_api_key
-    api_keys.find_by(status: "active")
-  end
+  #
+  # def active_api_key
+  #   api_keys.find_by(status: "active")
+  # end
 
   def set_api_key
     api_keys.create!(status: 'active')

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180327162242) do
+ActiveRecord::Schema.define(version: 20180327162507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,7 +44,10 @@ ActiveRecord::Schema.define(version: 20180327162242) do
     t.datetime "updated_at", null: false
     t.string "activation_key"
     t.boolean "activated"
+    t.bigint "game_id"
+    t.index ["game_id"], name: "index_users_on_game_id"
   end
 
   add_foreign_key "api_keys", "users"
+  add_foreign_key "users", "games"
 end

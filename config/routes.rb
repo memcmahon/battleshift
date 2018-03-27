@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      post "/games", to: "games#create"
       resources :games, only: [:show] do
         post "/shots", to: "games/shots#create"
       end

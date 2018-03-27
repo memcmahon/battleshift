@@ -7,4 +7,7 @@ class Api::V1::GamesController < ActionController::API
       render status: 400
     end
   end
+
+  def create
+  end
 end

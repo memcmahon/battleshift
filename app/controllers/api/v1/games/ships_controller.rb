@@ -11,10 +11,7 @@ class Api::V1::Games::ShipsController < ActionController::API
 
     ship_placer = ShipPlacer.new(board: board, ship: Ship.new(params["ship_size"]), start_space: params["start_space"], end_space: params["end_space"])
 
-    # require "pry"; binding.pry
     message = ship_placer.run
     render json: game, message: message
   end
-
-
 end

@@ -7,6 +7,8 @@ class Board
     @board = create_grid
   end
 
+  
+
   def get_row_letters
     ("A".."Z").to_a.shift(@length)
   end
@@ -203,4 +205,3 @@ class Board
     get_column(coordinate) == "1"
   end
 end
-

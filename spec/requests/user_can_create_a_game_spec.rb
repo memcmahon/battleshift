@@ -8,7 +8,7 @@ describe "User can create a game" do
     it "they can start a game" do
 
       headers = { "CONTENT_TYPE" => "application/json",
-                  "X-API-Key" => player_1.active_api_key.id
+                  "X-API-Key" => player_1.api_key.id
                 }
 
       payload = { opponent_email: player_2.email }.to_json

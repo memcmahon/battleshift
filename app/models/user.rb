@@ -3,7 +3,7 @@ require "digest"
 class User < ApplicationRecord
   has_many :api_keys
   has_one :api_key, -> { where(status: "active")}
-  has_one :game
+  belongs_to :game, optional: true
 
 
   after_create :set_activation_key

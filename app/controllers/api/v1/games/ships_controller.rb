@@ -3,9 +3,9 @@ class Api::V1::Games::ShipsController < ApplicationController
   def create
     game = Game.find(params[:game_id])
 
-    if game.player_1.active_api_key.id == request.headers["X-API-KEY"]
+    if game.player_1.api_key.id == request.headers["X-API-KEY"]
       board = game.player_1_board
-    elsif game.player_2.active_api_key.id == request.headers["X-API-KEY"]
+    elsif game.player_2.api_key.id == request.headers["X-API-KEY"]
       board = game.player_2_board
     end
 

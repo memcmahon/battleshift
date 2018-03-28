@@ -13,7 +13,7 @@ describe "user can place a ship" do
 
       headers = {
                   "CONTENT_TYPE" => "application/json",
-                  "X-API-Key" => player_1.active_api_key.id
+                  "X-API-Key" => player_1.api_key.id
                 }
 
       ship_1_payload = {

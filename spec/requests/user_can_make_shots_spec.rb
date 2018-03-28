@@ -30,8 +30,9 @@ describe "users can make shots" do
 
       payload = {target: "A1"}.to_json
 
-      post post "/api/v1/games", params: payload, headers: headers
+      post "/api/v1/games/#{game.id}/shots", params: payload, headers: headers
 
+      expect(game.player_2_board.board[0][0]["A1"].status).to eq("Hit")
     end
   end
 end

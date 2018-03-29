@@ -1,4 +1,4 @@
-class Api::V1::Games::ShipsController < ActionController::API
+class Api::V1::Games::ShipsController < ApiController
 
   def create
     game = Game.find(params[:game_id])

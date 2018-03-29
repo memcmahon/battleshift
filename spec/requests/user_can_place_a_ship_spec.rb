@@ -2,14 +2,12 @@ require "rails_helper"
 
 describe "user can place a ship" do
   describe "when they post to /api/v1/games/:game_id/ships" do
-    let(:player_1) { create(:user) }
-    let(:player_2) { create(:user) }
-
-    let(:game)     { create(:game, player_1: player_1,
-                            player_2: player_2, player_1_board: Board.new(4),
-                            player_2_board: Board.new(4)) }
-
     it "places a ship based on payload" do
+      player_1 = create(:user)
+      player_2 = create(:user)
+
+      game = create(:game, player_1: player_1, player_2: player_2,
+                    player_1_board: Board.new(4), player_2_board: Board.new(4))
 
       player_1_headers = {
                   "CONTENT_TYPE" => "application/json",
@@ -36,7 +34,7 @@ describe "user can place a ship" do
       post "/api/v1/games/#{game.id}/ships", params: ship_1_payload, headers: player_1_headers
 
       results = JSON.parse(response.body, symbolize_names: true)
-      
+
       expect(response.status).to eq(200)
       expect(results[:message]).to eq("Successfully placed ship with a size of 3. You have 1 ship(s) to place with a size of 2.")
 

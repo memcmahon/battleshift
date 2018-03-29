@@ -14,6 +14,7 @@ class Api::V1::Games::ShipsController < ActionController::API
     ship_placer = ShipPlacer.new(board: board, ship: Ship.new(params["ship_size"]), start_space: params["start_space"], end_space: params["end_space"])
 
     message = ship_placer.run
+    game.save!
 
     render json: game, message: message
   end

@@ -56,21 +56,45 @@ describe "as a user" do
                   "X-API-Key" => player_2.api_key.id
                 }
 
-      #player 1 shot 1
+      #player 1 ship 1 shot 1
       payload = {target: "B1"}.to_json
       post "/api/v1/games/#{game.id}/shots", params: payload, headers: player_1_headers
 
-      #player 2 shot 1
+      #player 2 ship 1 shot 1
       payload = {target: "B1"}.to_json
       post "/api/v1/games/#{game.id}/shots", params: payload, headers: player_2_headers
 
-      #player 1 shot 2 => sink ship
+      #player 1 ship 1 shot 2 => sink ship
       payload = {target: "C1"}.to_json
+      post "/api/v1/games/#{game.id}/shots", params: payload, headers: player_1_headers
+
+      #player 2 ship 1 shot 2
+      payload = {target: "C1"}.to_json
+      post "/api/v1/games/#{game.id}/shots", params: payload, headers: player_2_headers
+
+      #player 1 ship 2 shot 1
+      payload = {target: "A1"}.to_json
+      post "/api/v1/games/#{game.id}/shots", params: payload, headers: player_1_headers
+
+      #player 2 ship 2 shot 1
+      payload = {target: "A1"}.to_json
+      post "/api/v1/games/#{game.id}/shots", params: payload, headers: player_2_headers
+
+      #player 1 ship 2 shot 2
+      payload = {target: "A2"}.to_json
+      post "/api/v1/games/#{game.id}/shots", params: payload, headers: player_1_headers
+
+      #player 2 ship 2 shot 2
+      payload = {target: "A2"}.to_json
+      post "/api/v1/games/#{game.id}/shots", params: payload, headers: player_2_headers
+
+      #player 1 ship 2 shot 3 => game over
+      payload = {target: "A3"}.to_json
       post "/api/v1/games/#{game.id}/shots", params: payload, headers: player_1_headers
 
       result = JSON.parse(response.body, symbolize_names: true)
 
-      expect(result[:message]).to eq("Your shot resulted in a Hit. Battleship sunk.")
+      expect(result[:message]).to eq("Your shot resulted in a Hit. Battleship sunk. Game over.")
     end
   end
 end

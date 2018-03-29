@@ -1,4 +1,4 @@
-class Api::V1::GamesController < ActionController::API
+class Api::V1::GamesController < ApiController
   def show
     if Game.exists?(id: params[:id])
       game = Game.find(params[:id])

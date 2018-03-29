@@ -24,10 +24,4 @@ class User < ApplicationRecord
   def set_api_key
     api_keys.create!(status: 'active')
   end
-
-  private
-
-    def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
-    end
 end

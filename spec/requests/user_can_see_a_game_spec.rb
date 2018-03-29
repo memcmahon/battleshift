@@ -47,7 +47,11 @@ describe 'GET /api/v1/games/1' do
       game = Game.create(game_attributes)
       game.save!
 
-      get "/api/v1/games/#{game.id}"
+      headers = { "CONTENT_TYPE" => "application/json",
+                  "X-API-Key" => player_1.api_key
+                }
+
+      get "/api/v1/games/#{game.id}", headers: headers
 
       actual  = JSON.parse(response.body, symbolize_names: true)
       expected = Game.last
@@ -66,7 +70,13 @@ describe 'GET /api/v1/games/1' do
 
   describe 'with no game' do
     it 'returns a 400' do
-      get "/api/v1/games/1"
+      player_1 = create(:user)
+
+      headers = { "CONTENT_TYPE" => "application/json",
+                  "X-API-Key" => player_1.api_key
+                }
+
+      get "/api/v1/games/1", headers: headers
 
       expect(response.status).to be(400)
     end

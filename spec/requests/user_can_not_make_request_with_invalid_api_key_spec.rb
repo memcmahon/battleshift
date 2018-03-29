@@ -43,7 +43,7 @@ describe "user must use valid api key when making requests" do
     expect(results[:message]).to eq("Unauthorized")
   end
 
-  it "they can not post to a game they are not part of" do
+  it "they can not post a ship to a game they are not part of" do
     headers = { "CONTENT_TYPE" => "application/json",
                 "X-API-Key" => player_1.api_key.id
               }
@@ -61,6 +61,27 @@ describe "user must use valid api key when making requests" do
     }.to_json
 
     post "/api/v1/games/#{Game.last.id}/ships", params: ship_1_payload, headers: headers
+
+    results = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response.status).to eq(401)
+    expect(results[:message]).to eq("You are not a player in this game!")
+  end
+
+  it "they can not post a shot to a game they are not part of" do
+    headers = { "CONTENT_TYPE" => "application/json",
+                "X-API-Key" => player_1.api_key.id
+              }
+
+    post "/api/v1/games", params: payload, headers: headers
+
+    headers = { "CONTENT_TYPE" => "application/json",
+                "X-API-Key" => invader.api_key.id
+              }
+
+    payload = {target: "A1"}.to_json
+
+    post "/api/v1/games/#{Game.last.id}/shots", params: payload, headers: headers
 
     results = JSON.parse(response.body, symbolize_names: true)
 

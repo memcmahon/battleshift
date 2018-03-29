@@ -36,7 +36,7 @@ describe "user can place a ship" do
       post "/api/v1/games/#{game.id}/ships", params: ship_1_payload, headers: player_1_headers
 
       results = JSON.parse(response.body, symbolize_names: true)
-
+      
       expect(response.status).to eq(200)
       expect(results[:message]).to eq("Successfully placed ship with a size of 3. You have 1 ship(s) to place with a size of 2.")
 

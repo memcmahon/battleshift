@@ -31,7 +31,7 @@ class TurnProcessor
         @messages << "Your shot resulted in a #{result}."
         turn_setter
         you_sunk_my_battleship
-        require "pry"; binding.pry
+        game_over?
       else
         raise InvalidAttack.new("Invalid move. It's your opponent's turn")
       end
@@ -67,6 +67,41 @@ class TurnProcessor
       end.compact.first.contents
     end
 
+    def all_spaces
+      opponent_board.board.flatten.map do |row|
+        row.values.first
+      end
+    end
+
+    def all_ships
+      all_spaces.map do |space|
+        space.contents
+      end.compact
+    end
+
+    def all_sunk?
+      all_ships.map do |ship|
+        ship.is_sunk?.to_s
+      end.uniq
+    end
+
+    def game_over?
+      if all_sunk?.include?("false")
+        @messages
+      else
+        @messages << "Game over."
+        game.winner = @player.email
+      end
+    end
+
+    def opponent_board
+      if @player == game.player_1
+        game.player_2_board
+      else
+        game.player_1_board
+      end
+    end
+
     # def ai_attack_back
     #   result = AiSpaceSelector.new(player.board).fire!
     #   @messages << "The computer's shot resulted in a #{result}."
@@ -77,11 +112,4 @@ class TurnProcessor
     #   Player.new(game.player_1_board)
     # end
 
-    def opponent_board
-      if @player == game.player_1
-        game.player_2_board
-      else
-        game.player_1_board
-      end
-    end
 end

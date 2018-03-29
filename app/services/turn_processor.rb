@@ -30,6 +30,7 @@ class TurnProcessor
       result = Shooter.fire!(board: opponent_board, target: target)
       @messages << "Your shot resulted in a #{result}."
       turn_setter
+      you_sunk_my_battleship
     else
       raise InvalidAttack.new("Invalid move. It's your opponent's turn")
     end
@@ -43,6 +44,26 @@ class TurnProcessor
       game.player_2_turns += 1
       game.current_turn = "challenger"
     end
+  end
+
+  def you_sunk_my_battleship
+    if shipwreck?
+      @messages << "Battleship sunk."
+    else
+      @messages
+    end
+  end
+
+  def shipwreck?
+    if ship_there?
+      ship_there?.is_sunk?
+    end
+  end
+
+  def ship_there?
+    opponent_board.board.flatten.map do |row|
+      row[@target]
+    end.compact.first.contents
   end
 
   # def ai_attack_back

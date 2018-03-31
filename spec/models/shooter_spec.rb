@@ -14,4 +14,8 @@ describe Shooter, type: :model do
 
     expect(result).to eq("Miss")
   end
+
+  it "can't fire on an invalid space" do
+    expect{ Shooter.new(board: board, target: "Z1").fire! }.to raise_error(InvalidAttack)
+  end
 end

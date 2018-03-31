@@ -19,6 +19,8 @@ class Api::V1::Games::ShotsController < ApiController
     if turn_processor.message.include?("Invalid")
       render json: game, status: 400, message: turn_processor.message
     else
+      text_message = "Your opponent has fired shots. Your turn!"
+      TwilioTextMessenger.new(text_message).call
       render json: game, message: turn_processor.message
     end
   end

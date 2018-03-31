@@ -1,6 +1,6 @@
 class Api::V1::Games::ShotsController < ApiController
-  before_action :game_player?
-  
+  before_action :game_player?, :check_game_status
+
   def create
     game = Game.find(params[:game_id])
 
@@ -31,4 +31,11 @@ class Api::V1::Games::ShotsController < ApiController
         render json: {message: "You are not a player in this game!"}, status: 401
       end
     end
+
+    def check_game_status
+     if !Game.find(params[:game_id]).winner.nil?
+       game = Game.find(params[:game_id])
+       render json: game, message: "Invalid move. Game over.", status: 400
+     end
+   end
 end

@@ -2,13 +2,14 @@ require 'rails_helper'
 
 describe "users can make shots" do
   describe "As player 1" do
+    let(:player_1_board) { Board.new(4) }
+    let(:player_2_board) { Board.new(4) }
+    let(:sm_ship) { Ship.new(2) }
+    let(:lg_ship) { Ship.new(3) }
+
     it "they can fire a hit" do
       player_1 = create(:user)
       player_2 = create(:user)
-      player_1_board = Board.new(4)
-      player_2_board = Board.new(4)
-      sm_ship = Ship.new(2)
-      lg_ship = Ship.new(3)
 
       ShipPlacer.new(board: player_2_board,
         ship: sm_ship,
@@ -38,10 +39,6 @@ describe "users can make shots" do
     it "they can fire a miss" do
       player_1 = create(:user)
       player_2 = create(:user)
-      player_1_board = Board.new(4)
-      player_2_board = Board.new(4)
-      sm_ship = Ship.new(2)
-      lg_ship = Ship.new(3)
 
       ShipPlacer.new(board: player_2_board,
         ship: sm_ship,
@@ -71,10 +68,6 @@ describe "users can make shots" do
     it "they can not fire on an invalid space" do
       player_1 = create(:user)
       player_2 = create(:user)
-      player_1_board = Board.new(4)
-      player_2_board = Board.new(4)
-      sm_ship = Ship.new(2)
-      lg_ship = Ship.new(3)
 
       ShipPlacer.new(board: player_2_board,
         ship: sm_ship,

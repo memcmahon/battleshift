@@ -3,7 +3,9 @@ require "rails_helper"
 RSpec.describe UserMailer, type: :mailer do
   describe "registration email" do
     it "includes activation link" do
-      user = User.create!(name: "Testy Dude", email: "email@email.com", password: "Test!")
+      user = double('user')
+      allow(user).to receive(:activation_key) { 'fakeactivationkey' }
+      allow(user).to receive(:api_key) { create(:api_key) }
       mail = UserMailer.registration_email(user)
 
       expect(mail.subject).to eq("Battleshift Activation Email")

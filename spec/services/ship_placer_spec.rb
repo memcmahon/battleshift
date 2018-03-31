@@ -2,6 +2,7 @@ require 'spec_helper'
 require './app/services/ship_placer'
 require './app/services/values/board'
 require './app/services/values/space'
+require './app/services/errors/invalid_ship_placement'
 
 describe ShipPlacer do
   let(:board) { Board.new(4) }

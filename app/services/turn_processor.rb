@@ -27,7 +27,7 @@ class TurnProcessor
 
     def attack_opponent
       if game.current_turn == @player_role
-        result = Shooter.fire!(board: opponent_board, target: target)
+        result = Shooter.new(board: opponent_board, target: target).fire!
         @messages << "Your shot resulted in a #{result}."
         turn_setter
         you_sunk_my_battleship

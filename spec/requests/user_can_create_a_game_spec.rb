@@ -44,7 +44,7 @@ describe "Only active users can create games" do
 
         results = JSON.parse(response.body, symbolize_names: true)
 
-        expect(response.status).to eq(400)
+        expect(response.status).to eq(401)
         expect(results[:message]).to include("your account is not active, please click activation link in email")
       end
     end

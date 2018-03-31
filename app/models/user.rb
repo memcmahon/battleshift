@@ -12,9 +12,8 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  validates_presence_of :email, :name#, :password, :password_confirmation
+  validates_presence_of :email, :name
   validates_uniqueness_of :email
-  # validates_confirmation_of :password
 
   def set_activation_key
     sha = Digest::SHA1.hexdigest(email)

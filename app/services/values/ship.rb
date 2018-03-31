@@ -7,7 +7,6 @@ class Ship
   end
 
   def attack!
-    binding.pry
     @damage += 1
   end
 

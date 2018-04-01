@@ -5,6 +5,7 @@ describe "Only active users can create games" do
     describe "When they post to /api/v1/games" do
       let(:player_1) { create(:user) }
       let(:player_2) { create(:user) }
+      let(:stranger) { create(:user, activated: false) }
 
       it "they can start a game" do
 
@@ -23,6 +24,36 @@ describe "Only active users can create games" do
         expect(results[:player_2_board][:rows].count).to eq(4)
         expect(results[:player_1][:name]).to eq(player_1.name)
         expect(results[:player_2][:name]).to eq(player_2.name)
+      end
+
+      it "they can not start the game if opponent is not active user" do
+        headers = { "CONTENT_TYPE" => "application/json",
+                    "X-API-Key" => player_1.api_key.id
+                  }
+
+        payload = { opponent_email: stranger.email }.to_json
+
+        post "/api/v1/games", params: payload, headers: headers
+
+        results = JSON.parse(response.body, symbolize_names: true)
+
+        expect(response.status).to eq(400)
+        expect(results[:message]).to include("The opponent you have chosen is not an active user.")
+      end
+
+      it "they can not start the game if opponent is not a user" do
+        headers = { "CONTENT_TYPE" => "application/json",
+                    "X-API-Key" => player_1.api_key.id
+                  }
+
+        payload = { opponent_email: "fakemail@gmail.com" }.to_json
+
+        post "/api/v1/games", params: payload, headers: headers
+
+        results = JSON.parse(response.body, symbolize_names: true)
+
+        expect(response.status).to eq(400)
+        expect(results[:message]).to include("The opponent you have chosen is not an active user.")
       end
     end
   end

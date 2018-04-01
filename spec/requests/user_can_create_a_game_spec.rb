@@ -40,6 +40,21 @@ describe "Only active users can create games" do
         expect(response.status).to eq(400)
         expect(results[:message]).to include("The opponent you have chosen is not an active user.")
       end
+
+      it "they can not start the game if opponent is not a user" do
+        headers = { "CONTENT_TYPE" => "application/json",
+                    "X-API-Key" => player_1.api_key.id
+                  }
+
+        payload = { opponent_email: "fakemail@gmail.com" }.to_json
+
+        post "/api/v1/games", params: payload, headers: headers
+
+        results = JSON.parse(response.body, symbolize_names: true)
+
+        expect(response.status).to eq(400)
+        expect(results[:message]).to include("The opponent you have chosen is not an active user.")
+      end
     end
   end
 

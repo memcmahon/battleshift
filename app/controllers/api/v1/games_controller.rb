@@ -24,8 +24,12 @@ class Api::V1::GamesController < ApiController
 
   private
     def verify_opponent
-      unless User.find_by(email: params[:opponent_email]).activated
+      unless opponent && opponent.activated
         render json: {message: "The opponent you have chosen is not an active user."}, status: 400
       end
+    end
+
+    def opponent
+      User.find_by(email: params[:opponent_email])
     end
 end
